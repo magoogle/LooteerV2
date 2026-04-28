@@ -40,7 +40,7 @@ function Renderer.draw_stuff()
             local info = item:get_item_info()
             if info then
                 local skin = info:get_skin_name() or ""
-                local highlight = skin:find("Charm") or skin:find("Flippy") or skin:find("Set")
+                local highlight = skin:find("Charm") or skin:find("Flippy") or skin:find("Set") or skin:find("Horadric")
                 local txt = string.format("%s | r=%d | id=%d",
                     skin, info:get_rarity(), info:get_sno_id())
                 local col = highlight and color_yellow(255) or color_white(200)
