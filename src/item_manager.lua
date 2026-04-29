@@ -18,6 +18,7 @@ local item_type_patterns = {
    misc_trinkets = { "Flippy_Misc" },
    charm = { "Generic_Charm_" },
    cube = { "HoradricCube_" },
+   seal = { "Talisman_Seal" },
    recipe = { "Tempering_Recipe", "Item_Book_Generic", "Item_Book_Horadrim", "Test_Mount", "mnt_amor", "MountReins" },
    cinders = { "Test_BloodMoon_Currency" },
    heavenly_sigil = { "S11_Heavenly_Sigil" },
@@ -139,6 +140,10 @@ function ItemManager.check_is_cube(item)
    return ItemManager.check_item_type(item, "cube")
 end
 
+function ItemManager.check_is_seal(item)
+   return ItemManager.check_item_type(item, "seal")
+end
+
 function ItemManager.check_is_misc_trinkets(item)
    return ItemManager.check_item_type(item, "misc_trinkets")
 end
@@ -181,6 +186,7 @@ function ItemManager.check_want_item(item, ignore_distance)
    if ItemManager.check_is_quest_item(item) and not settings.quest_items then return false end
    if ItemManager.check_is_charm(item) and not settings.charm then return false end
    if ItemManager.check_is_cube(item) and not settings.cube then return false end
+   if ItemManager.check_is_seal(item) and not settings.seal then return false end
    
    local is_consumable_item = 
       (settings.boss_items and CustomItems.boss_items[id]) or
@@ -207,6 +213,7 @@ function ItemManager.check_want_item(item, ignore_distance)
    local is_item_cache = ItemManager.check_is_item_cache(item)
    local is_charm = settings.charm and ItemManager.check_is_charm(item)
    local is_cube = settings.cube and ItemManager.check_is_cube(item)
+   local is_seal = settings.seal and ItemManager.check_is_seal(item)
 
    if is_event_item then
       -- If the item is crafting material or cinders, skip inventory and consumable checks
@@ -286,6 +293,11 @@ function ItemManager.check_want_item(item, ignore_distance)
    elseif is_cube then
       -- Cube-item-specific rarity threshold, ignore the general rarity setting
       if rarity < settings.cube_rarity then return false end
+      if Utils.is_inventory_full() then return false end
+      return true
+   elseif is_seal then
+      -- Seal-specific rarity threshold, ignore the general rarity setting
+      if rarity < settings.seal_rarity then return false end
       if Utils.is_inventory_full() then return false end
       return true
    end

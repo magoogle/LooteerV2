@@ -40,7 +40,7 @@ function Renderer.draw_stuff()
             local info = item:get_item_info()
             if info then
                 local skin = info:get_skin_name() or ""
-                local highlight = skin:find("Charm") or skin:find("Flippy") or skin:find("Set") or skin:find("Horadric") or skin:find("[Kk]ey") or skin:find("[Oo]re") or skin:find("Trinket")
+                local highlight = skin:find("Charm") or skin:find("Flippy") or skin:find("Set") or skin:find("Horadric") or skin:find("[Kk]ey") or skin:find("[Oo]re") or skin:find("Trinket") or skin:find("Seal") or skin:find("Talisman")
                 local want = ItemManager.check_want_item(item, true)
                 local txt = string.format("%s | r=%d | id=%d | want=%s",
                     skin, info:get_rarity(), info:get_sno_id(), tostring(want))

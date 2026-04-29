@@ -117,6 +117,12 @@ gui.elements = {
       cube_rarity_combo = combo_box:new(0, get_hash(plugin_label .. "_cube_rarity_combo")),
    },
 
+   seal_settings = {
+      tree = tree_node:new(1),
+      seal_toggle = checkbox:new(false, get_hash(plugin_label .. "_seal_toggle")),
+      seal_rarity_combo = combo_box:new(0, get_hash(plugin_label .. "_seal_rarity_combo")),
+   },
+
    debug = {
       tree = tree_node:new(1),
       draw_wanted_toggle = checkbox:new(false, get_hash(plugin_label .. "_draw_wanted_toggle")),
@@ -309,6 +315,14 @@ function gui.render()
       gui.elements.cube_settings.cube_rarity_combo:render("Cube Rarity", options.rarities,
          "Minimum rarity for cube items. Independent of the General → Rarity setting.")
       gui.elements.cube_settings.tree:pop()
+   end
+
+   if gui.elements.seal_settings.tree:push("Seal Settings") then
+      gui.elements.seal_settings.seal_toggle:render("Pickup Seals",
+         "Enable pickup of seals (Talisman_Seal_*).")
+      gui.elements.seal_settings.seal_rarity_combo:render("Seal Rarity", options.rarities,
+         "Minimum rarity for seals. Independent of the General → Rarity setting.")
+      gui.elements.seal_settings.tree:pop()
    end
 
    if gui.elements.debug.tree:push("Debug") then
