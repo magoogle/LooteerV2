@@ -41,8 +41,9 @@ function Renderer.draw_stuff()
             if info then
                 local skin = info:get_skin_name() or ""
                 local highlight = skin:find("Charm") or skin:find("Flippy") or skin:find("Set") or skin:find("Horadric") or skin:find("[Kk]ey")
-                local txt = string.format("%s | r=%d | id=%d",
-                    skin, info:get_rarity(), info:get_sno_id())
+                local want = ItemManager.check_want_item(item, true)
+                local txt = string.format("%s | r=%d | id=%d | want=%s",
+                    skin, info:get_rarity(), info:get_sno_id(), tostring(want))
                 local col = highlight and color_yellow(255) or color_white(200)
                 graphics.text_3d(txt, item:get_position(), 14, col)
                 if highlight then
