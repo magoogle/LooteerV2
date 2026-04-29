@@ -35,6 +35,8 @@ local custom_items = {
         [2429479] = "Purified Horn of Duriel",
         [2429473] = "Purified Claw of Andariel",
         [2429477] = "Purified Eye of Belial",
+        [2567119] = "Malignant Orb",
+        [2567084] = "Judicator's Mask (S08 actor)",
     },
     rare_elixirs = {
         [1856350] = "Elixir of Holy Bolts",
