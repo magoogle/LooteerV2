@@ -87,7 +87,9 @@ local settings = {
    draw_wanted_items = false,
    scan_items = false,
    charm = false,
-   charm_rarity = 0
+   charm_rarity = 0,
+   cube = false,
+   cube_rarity = 0
 }
 
 function Settings.update()
@@ -181,6 +183,10 @@ function Settings.update()
       -- Charm Settings
       charm = gui.elements.charm_settings.charm_toggle:get(),
       charm_rarity = gui.elements.charm_settings.charm_rarity_combo:get(),
+
+      -- Cube Items Settings
+      cube = gui.elements.cube_settings.cube_toggle:get(),
+      cube_rarity = gui.elements.cube_settings.cube_rarity_combo:get(),
 
       -- Debug
       draw_wanted_items = gui.elements.debug.draw_wanted_toggle:get(),

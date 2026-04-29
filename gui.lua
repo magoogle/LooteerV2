@@ -111,6 +111,12 @@ gui.elements = {
       charm_rarity_combo = combo_box:new(0, get_hash(plugin_label .. "_charm_rarity_combo")),
    },
 
+   cube_settings = {
+      tree = tree_node:new(1),
+      cube_toggle = checkbox:new(false, get_hash(plugin_label .. "_cube_toggle")),
+      cube_rarity_combo = combo_box:new(0, get_hash(plugin_label .. "_cube_rarity_combo")),
+   },
+
    debug = {
       tree = tree_node:new(1),
       draw_wanted_toggle = checkbox:new(false, get_hash(plugin_label .. "_draw_wanted_toggle")),
@@ -295,6 +301,14 @@ function gui.render()
       gui.elements.charm_settings.charm_rarity_combo:render("Charm Rarity", options.rarities,
          "Minimum rarity for charms. Independent of the General → Rarity setting.")
       gui.elements.charm_settings.tree:pop()
+   end
+
+   if gui.elements.cube_settings.tree:push("Cube Items Settings") then
+      gui.elements.cube_settings.cube_toggle:render("Pickup Cube Items",
+         "Enable pickup of Horadric Cube items (HoradricCube_*, e.g. Tuning Stones).")
+      gui.elements.cube_settings.cube_rarity_combo:render("Cube Rarity", options.rarities,
+         "Minimum rarity for cube items. Independent of the General → Rarity setting.")
+      gui.elements.cube_settings.tree:pop()
    end
 
    if gui.elements.debug.tree:push("Debug") then

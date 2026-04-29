@@ -13,10 +13,11 @@ local item_type_patterns = {
    equipment = { "Base", "Amulet", "Ring" },
    item_cache = { "Item_Cache", "Treasure_Reward_Cache_GoblinEvent" },
    quest = { "Global", "Glyph", "QST", "DGN", "pvp_currency", "S07_Witch_Bonus", "GamblingCurrency_Key", "Experience_PowerUp_Actor", "S09_Arcana", "S11_MemoryFragment" },
-   crafting = { "CraftingMaterial", "Crafting_Legendary", "Horadric_", "HoradricCube_", "Ore_" },
+   crafting = { "CraftingMaterial", "Crafting_Legendary", "Horadric_", "Ore_" },
    keys = { "Flippy_[Kk]eys" },
    misc_trinkets = { "Flippy_Misc" },
    charm = { "Generic_Charm_" },
+   cube = { "HoradricCube_" },
    recipe = { "Tempering_Recipe", "Item_Book_Generic", "Item_Book_Horadrim", "Test_Mount", "mnt_amor", "MountReins" },
    cinders = { "Test_BloodMoon_Currency" },
    heavenly_sigil = { "S11_Heavenly_Sigil" },
@@ -134,6 +135,10 @@ function ItemManager.check_is_charm(item)
    return ItemManager.check_item_type(item, "charm")
 end
 
+function ItemManager.check_is_cube(item)
+   return ItemManager.check_item_type(item, "cube")
+end
+
 function ItemManager.check_is_misc_trinkets(item)
    return ItemManager.check_item_type(item, "misc_trinkets")
 end
@@ -175,6 +180,7 @@ function ItemManager.check_want_item(item, ignore_distance)
    if ItemManager.check_is_item_cache(item) and not settings.item_cache then return false end
    if ItemManager.check_is_quest_item(item) and not settings.quest_items then return false end
    if ItemManager.check_is_charm(item) and not settings.charm then return false end
+   if ItemManager.check_is_cube(item) and not settings.cube then return false end
    
    local is_consumable_item = 
       (settings.boss_items and CustomItems.boss_items[id]) or
@@ -200,6 +206,7 @@ function ItemManager.check_want_item(item, ignore_distance)
    local is_recipe = settings.crafting_items and ItemManager.check_is_recipe(item)
    local is_item_cache = ItemManager.check_is_item_cache(item)
    local is_charm = settings.charm and ItemManager.check_is_charm(item)
+   local is_cube = settings.cube and ItemManager.check_is_cube(item)
 
    if is_event_item then
       -- If the item is crafting material or cinders, skip inventory and consumable checks
@@ -274,6 +281,11 @@ function ItemManager.check_want_item(item, ignore_distance)
    elseif is_charm then
       -- Charm-specific rarity threshold, ignore the general rarity setting
       if rarity < settings.charm_rarity then return false end
+      if Utils.is_inventory_full() then return false end
+      return true
+   elseif is_cube then
+      -- Cube-item-specific rarity threshold, ignore the general rarity setting
+      if rarity < settings.cube_rarity then return false end
       if Utils.is_inventory_full() then return false end
       return true
    end
