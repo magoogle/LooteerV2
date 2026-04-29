@@ -105,6 +105,12 @@ gui.elements = {
       gemstone_toggle = checkbox:new(false, get_hash(plugin_label .. "_gemstone_toggle")),
    },
 
+   charm_settings = {
+      tree = tree_node:new(1),
+      charm_toggle = checkbox:new(false, get_hash(plugin_label .. "_charm_toggle")),
+      charm_rarity_combo = combo_box:new(0, get_hash(plugin_label .. "_charm_rarity_combo")),
+   },
+
    debug = {
       tree = tree_node:new(1),
       draw_wanted_toggle = checkbox:new(false, get_hash(plugin_label .. "_draw_wanted_toggle")),
@@ -283,6 +289,14 @@ function gui.render()
       gui.elements.item_types.tree:pop()
    end
  
+   if gui.elements.charm_settings.tree:push("Charm Settings") then
+      gui.elements.charm_settings.charm_toggle:render("Pickup Charms",
+         "Enable pickup of charms (Generic_Charm_*).")
+      gui.elements.charm_settings.charm_rarity_combo:render("Charm Rarity", options.rarities,
+         "Minimum rarity for charms. Independent of the General → Rarity setting.")
+      gui.elements.charm_settings.tree:pop()
+   end
+
    if gui.elements.debug.tree:push("Debug") then
       gui.elements.debug.draw_wanted_toggle:render("Draw Wanted",
          "Do you want to draw the items that the bot considers picking up? (Debug)")

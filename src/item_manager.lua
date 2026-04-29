@@ -15,6 +15,7 @@ local item_type_patterns = {
    quest = { "Global", "Glyph", "QST", "DGN", "pvp_currency", "S07_Witch_Bonus", "GamblingCurrency_Key", "Experience_PowerUp_Actor", "S09_Arcana", "S11_MemoryFragment" },
    crafting = { "CraftingMaterial", "Crafting_Legendary", "Horadric_", "HoradricCube_" },
    keys = { "Flippy_[Kk]eys" },
+   charm = { "Generic_Charm_" },
    recipe = { "Tempering_Recipe", "Item_Book_Generic", "Item_Book_Horadrim", "Test_Mount", "mnt_amor", "MountReins" },
    cinders = { "Test_BloodMoon_Currency" },
    heavenly_sigil = { "S11_Heavenly_Sigil" },
@@ -128,6 +129,10 @@ function ItemManager.check_is_keys(item)
    return ItemManager.check_item_type(item, "keys")
 end
 
+function ItemManager.check_is_charm(item)
+   return ItemManager.check_item_type(item, "charm")
+end
+
 ---@param item game.object Item to check
 ---@param ignore_distance boolean If we want to ignore the distance check
 function ItemManager.check_want_item(item, ignore_distance)
@@ -163,6 +168,7 @@ function ItemManager.check_want_item(item, ignore_distance)
    if ItemManager.check_is_recipe(item) and not settings.crafting_items then return false end
    if ItemManager.check_is_item_cache(item) and not settings.item_cache then return false end
    if ItemManager.check_is_quest_item(item) and not settings.quest_items then return false end
+   if ItemManager.check_is_charm(item) and not settings.charm then return false end
    
    local is_consumable_item = 
       (settings.boss_items and CustomItems.boss_items[id]) or
@@ -187,6 +193,7 @@ function ItemManager.check_want_item(item, ignore_distance)
       
    local is_recipe = settings.crafting_items and ItemManager.check_is_recipe(item)
    local is_item_cache = ItemManager.check_is_item_cache(item)
+   local is_charm = settings.charm and ItemManager.check_is_charm(item)
 
    if is_event_item then
       -- If the item is crafting material or cinders, skip inventory and consumable checks
@@ -257,6 +264,11 @@ function ItemManager.check_want_item(item, ignore_distance)
       end
    elseif is_quest_item then
       -- Loot them all quest items
+      return true
+   elseif is_charm then
+      -- Charm-specific rarity threshold, ignore the general rarity setting
+      if rarity < settings.charm_rarity then return false end
+      if Utils.is_inventory_full() then return false end
       return true
    end
 
