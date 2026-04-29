@@ -12,8 +12,9 @@ local item_type_patterns = {
    tribute = { "Undercity_Tribute" },
    equipment = { "Base", "Amulet", "Ring" },
    item_cache = { "Item_Cache", "Treasure_Reward_Cache_GoblinEvent" },
-   quest = { "Global", "Glyph", "QST", "DGN", "pvp_currency", "S07_Witch_Bonus", "GamblingCurrency_Key", "Experience_PowerUp_Actor", "S09_Arcana", "S11_MemoryFragment", "Flippy_[Kk]eys" },
+   quest = { "Global", "Glyph", "QST", "DGN", "pvp_currency", "S07_Witch_Bonus", "GamblingCurrency_Key", "Experience_PowerUp_Actor", "S09_Arcana", "S11_MemoryFragment" },
    crafting = { "CraftingMaterial", "Crafting_Legendary", "Horadric_", "HoradricCube_" },
+   keys = { "Flippy_[Kk]eys" },
    recipe = { "Tempering_Recipe", "Item_Book_Generic", "Item_Book_Horadrim", "Test_Mount", "mnt_amor", "MountReins" },
    cinders = { "Test_BloodMoon_Currency" },
    heavenly_sigil = { "S11_Heavenly_Sigil" },
@@ -123,6 +124,10 @@ function ItemManager.check_is_gemstone(item)
    return ItemManager.check_item_type(item, "gemstone")
 end
 
+function ItemManager.check_is_keys(item)
+   return ItemManager.check_item_type(item, "keys")
+end
+
 ---@param item game.object Item to check
 ---@param ignore_distance boolean If we want to ignore the distance check
 function ItemManager.check_want_item(item, ignore_distance)
@@ -138,6 +143,8 @@ function ItemManager.check_want_item(item, ignore_distance)
    if not ignore_distance and Utils.distance_to(item) >= settings.distance then return false end
    if settings.skip_dropped and #affixes > 0 then return false end
    if loot_manager.is_gold(item) or loot_manager.is_potion(item) then return false end
+   -- Always pick up keys, regardless of any toggle / rarity setting
+   if ItemManager.check_is_keys(item) then return true end
    -- Hard block disabled categories
    if ItemManager.check_is_sigil(item) and not settings.sigils then return false end
    if ItemManager.check_is_tribute(item) and not settings.tribute then return false end
