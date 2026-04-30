@@ -20,6 +20,7 @@ local item_type_patterns = {
    xp_powerup = { "Experience_PowerUp" },
    tribute_drop = { "Undercity_Tribute" },
    treasure_cache = { "Treasure_Reward_Cache" },
+   nightmare_sigil = { "Nightmare_Sigil" },
    charm = { "Generic_Charm_" },
    cube = { "HoradricCube_" },
    seal = { "Talisman_Seal" },
@@ -168,6 +169,10 @@ function ItemManager.check_is_treasure_cache(item)
    return ItemManager.check_item_type(item, "treasure_cache")
 end
 
+function ItemManager.check_is_nightmare_sigil(item)
+   return ItemManager.check_item_type(item, "nightmare_sigil")
+end
+
 ---@param item game.object Item to check
 ---@param ignore_distance boolean If we want to ignore the distance check
 function ItemManager.check_want_item(item, ignore_distance)
@@ -190,6 +195,7 @@ function ItemManager.check_want_item(item, ignore_distance)
    if ItemManager.check_is_xp_powerup(item) then return true end
    if ItemManager.check_is_tribute_drop(item) then return true end
    if ItemManager.check_is_treasure_cache(item) then return true end
+   if ItemManager.check_is_nightmare_sigil(item) then return true end
    -- Hard block disabled categories
    if ItemManager.check_is_sigil(item) and not settings.sigils then return false end
    if ItemManager.check_is_tribute(item) and not settings.tribute then return false end
