@@ -19,6 +19,7 @@ local item_type_patterns = {
    boss_drops = { "Boss_Flippy" },
    xp_powerup = { "Experience_PowerUp" },
    tribute_drop = { "Undercity_Tribute" },
+   treasure_cache = { "Treasure_Reward_Cache" },
    charm = { "Generic_Charm_" },
    cube = { "HoradricCube_" },
    seal = { "Talisman_Seal" },
@@ -163,6 +164,10 @@ function ItemManager.check_is_tribute_drop(item)
    return ItemManager.check_item_type(item, "tribute_drop")
 end
 
+function ItemManager.check_is_treasure_cache(item)
+   return ItemManager.check_item_type(item, "treasure_cache")
+end
+
 ---@param item game.object Item to check
 ---@param ignore_distance boolean If we want to ignore the distance check
 function ItemManager.check_want_item(item, ignore_distance)
@@ -178,12 +183,13 @@ function ItemManager.check_want_item(item, ignore_distance)
    if not ignore_distance and Utils.distance_to(item) >= settings.distance then return false end
    if settings.skip_dropped and #affixes > 0 then return false end
    if loot_manager.is_gold(item) or loot_manager.is_potion(item) then return false end
-   -- Always pick up keys / misc quest trinkets / boss drops / xp power-ups / tributes, regardless of any toggle / rarity setting
+   -- Always pick up keys / misc quest trinkets / boss drops / xp power-ups / tributes / treasure caches, regardless of any toggle / rarity setting
    if ItemManager.check_is_keys(item) then return true end
    if ItemManager.check_is_misc_trinkets(item) then return true end
    if ItemManager.check_is_boss_drop(item) then return true end
    if ItemManager.check_is_xp_powerup(item) then return true end
    if ItemManager.check_is_tribute_drop(item) then return true end
+   if ItemManager.check_is_treasure_cache(item) then return true end
    -- Hard block disabled categories
    if ItemManager.check_is_sigil(item) and not settings.sigils then return false end
    if ItemManager.check_is_tribute(item) and not settings.tribute then return false end
