@@ -191,9 +191,7 @@ function ItemManager.check_want_item(item, ignore_distance)
 
    -- Early return checks
    if not ignore_distance and Utils.distance_to(item) >= settings.distance then return false end
-   local is_charm_cube_seal = ItemManager.check_is_charm(item) or ItemManager.check_is_cube(item) or ItemManager.check_is_seal(item)
-   if settings.skip_dropped and #affixes > 0 and not is_charm_cube_seal then return false end
-   if loot_manager.is_gold(item) or loot_manager.is_potion(item) then return false end
+if loot_manager.is_gold(item) or loot_manager.is_potion(item) then return false end
    -- Always pick up keys / misc quest trinkets / boss drops / xp power-ups / tributes / treasure caches, regardless of any toggle / rarity setting
    if ItemManager.check_is_keys(item) then return true end
    if ItemManager.check_is_misc_trinkets(item) then return true end
